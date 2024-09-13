@@ -1,11 +1,10 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 import RegistrationDTO from '../payloads/dto/register.dto';
 import LoginDTO from '../payloads/dto/login.dto';
 import { User } from '../interfaces/user.interface';
 import { hashPassword, verifyPassword } from '../utils/security.utils';
 import AuthenticationResponseObject from '../payloads/response/authResponseObject.vm';
-import { SECRET_KEY } from "../config/env"
+import { config } from "../config/config"
 
 export class AuthService {
     
@@ -21,7 +20,7 @@ export class AuthService {
                 id: this.idCount++,
                 name: registrationDto.name
             });
-            const token = jwt.sign({ username: registrationDto.username }, SECRET_KEY, { expiresIn: '1h' });
+            const token = jwt.sign({ username: registrationDto.username }, config.SECRET_KEY, { expiresIn: '1h' });
             return {
                 code: 200,
                 jwt: token,

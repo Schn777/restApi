@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { SECRET_KEY } from '../config/env';
+import { config } from '../config/config';
 
 export default class AuthenticationFilter {
 
@@ -12,7 +12,7 @@ export default class AuthenticationFilter {
 
 
         try {
-            const decoded = jwt.verify(token, SECRET_KEY);
+            const decoded = jwt.verify(token, config.SECRET_KEY);
             req.user = decoded;
             next();
         } catch (error) {
