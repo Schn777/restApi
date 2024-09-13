@@ -3,21 +3,21 @@ import bcrypt from 'bcryptjs';
 import RegistrationDTO from '../payloads/dto/register.dto';
 import LoginDTO from '../payloads/dto/login.dto';
 import { User } from '../interfaces/user.interface';
-import ResponseObject from '../interfaces/response.interface';
+import { hashPassword, verifyPassword } from '../utils/security.utils';
 import AuthenticationResponseObject from '../payloads/response/authResponseObject.vm';
 
 
 export class AuthService {
     
     private static users: User[] = []; // Un tableau pour stocker des utilisateurs fictifs
-    public static SECRET_KEY = 'votre_clé_secrète'; // Utilisée pour signer les JWT (garder cette clé sécurisée)
+    public static SECRET_KEY = '7bFEnV8PM1Z+reWc3Cil/6YiOAxbpfOwF2E4P3CCFmbZkCheXMmr90xJa7xJYL2s'; // Utilisée pour signer les JWT (garder cette clé sécurisée)
     private static idCount : number = 0;
     
     static async register(registrationDto: RegistrationDTO) : Promise<AuthenticationResponseObject> {
         try {
             this.users.push({ 
                 username: registrationDto.username , 
-                password: await bcrypt.hash(registrationDto.password.trim(), 10),
+                password: await hashPassword(registrationDto.password.trim()),
                 id: this.idCount++,
                 name: registrationDto.name
             });
@@ -43,7 +43,7 @@ export class AuthService {
             return {code : 400, message: 'Utilisateur non trouvé', jwt:""}
         }
         
-        const isValidPassword = await bcrypt.compare(loginDto.password.trim(), user.password);
+        const isValidPassword = await verifyPassword(loginDto.password.trim(), user.password);
         if (!isValidPassword) {
             return {code : 400, message: 'Mot de passe incorrect', jwt: ""}
         }

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import Properties from '../config/properties.interface';
+import { config } from "../config/config";
 import jwt from 'jsonwebtoken';
 
 export default class AuthenticationFilter {
@@ -15,7 +15,7 @@ export default class AuthenticationFilter {
         console.log(res);
         
         
-        jwt.verify(token, Properties.SECRET_KEY, (err: any, user: any) => {
+        jwt.verify(token, config.SECRET_KEY, (err: any, user: any) => {
             if (err) return res.sendStatus(403);
             req.user = user;
             next();
