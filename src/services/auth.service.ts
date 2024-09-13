@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import RegistrationDTO from '../payloads/dto/register.dto';
 import LoginDTO from '../payloads/dto/login.dto';
 import { User } from '../interfaces/user.interface';
-import ResponseObject from '../interfaces/response.interface';
+import { hashPassword, verifyPassword } from '../utils/security.utils';
 import AuthenticationResponseObject from '../payloads/response/authResponseObject.vm';
 import { SECRET_KEY } from "../config/env"
 
@@ -17,7 +17,7 @@ export class AuthService {
         try {
             this.users.push({ 
                 username: registrationDto.username , 
-                password: await bcrypt.hash(registrationDto.password.trim(), 10),
+                password: await hashPassword(registrationDto.password.trim()),
                 id: this.idCount++,
                 name: registrationDto.name
             });
@@ -43,7 +43,7 @@ export class AuthService {
             return {code : 400, message: 'Utilisateur non trouvé', jwt:""}
         }
         
-        const isValidPassword = await bcrypt.compare(loginDto.password.trim(), user.password);
+        const isValidPassword = await verifyPassword(loginDto.password.trim(), user.password);
         if (!isValidPassword) {
             return {code : 400, message: 'Mot de passe incorrect', jwt: ""}
         }

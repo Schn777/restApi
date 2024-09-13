@@ -4,5 +4,5 @@ import { PORT } from "./config/env";
 
 // Démarrer le serveur
 app.listen(PORT, () => {
-    console.log(`Serveur en écoute sur <http://localhost>:${PORT}`);
+    console.log(`Server is running on https://localhost:${PORT}`);
 });

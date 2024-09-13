@@ -1,44 +1,43 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response } from 'express';
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
 import userRoutes from './routes/user.route';
 import productRoutes from './routes/product.route';
-import authRoutes from "./routes/auth.route";
+import authRoutes from './routes/auth.route';
 import { errorMiddleware } from './middlewares/error.middleware';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import AuthenticationFilter from './middlewares/auth.middleware';
+import { config } from './config/config';
 
+// Create an instance of AuthenticationFilter
 const filter = new AuthenticationFilter();
 const app = express();
-// Middleware de parsing du JSON
+
+// Middleware for JSON parsing
 app.use(express.json());
 
-const users = []; // Un tableau pour stocker des utilisateurs fictifs
-const SECRET_KEY = 'votre_clé_secrète'; // Utilisée pour signer les JWT (garder cette clé sécurisée)
-
-// Définir les options de Swagger
+// Define Swagger options
 const swaggerOptions = {
-    definition: {
-      openapi: '3.0.0',
-      info: {
-        title: 'User API',
-        version: '1.0.0',
-        description: 'A simple API to manage users',
-      },
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'User API',
+      version: '1.0.0',
+      description: 'A simple API to manage users',
     },
-    apis: ['./src/routes/*.route.ts'], // Fichier où les routes de l'API sont définies
-  };
-  
-// Générer la documentation à partir des options
+  },
+  apis: ['./src/routes/*.route.ts'], // File where API routes are defined
+};
+
+// Generate documentation from options
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
-// Servir la documentation Swagger via '/api-docs'
+// Serve Swagger documentation at '/api-docs'
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// Autres routes et middleware Express
-app.use(express.json());
-
-
-// Route de base
+// Basic route
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, TypeScript with Express!');
 });
@@ -49,5 +48,16 @@ app.use('/api', filter.authFilter, productRoutes);
 
 app.use(errorMiddleware);
 
+// HTTPS server options
+const httpsOptions: https.ServerOptions = {
+  key: fs.readFileSync(path.resolve(__dirname, config.CERT_KEY || 'config/certificates/key.pem')),
+  cert: fs.readFileSync(path.resolve(__dirname, config.CERT_CERT ||'config/certificates/cert.pem')),
+};
+
+// Create and start the HTTPS server
+const port = config.PORT;
+https.createServer(httpsOptions, app).listen(port, () => {
+  console.log(`Server is running on https://localhost:${port}`);
+});
 
 export default app;

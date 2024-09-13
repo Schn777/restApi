@@ -10,6 +10,7 @@ export default class AuthenticationFilter {
             return res.status(401).json({ message: 'No token provided' });
         }
 
+
         try {
             const decoded = jwt.verify(token, SECRET_KEY);
             req.user = decoded;
