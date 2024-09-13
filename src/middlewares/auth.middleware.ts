@@ -1,31 +1,31 @@
 import { Request, Response, NextFunction } from 'express';
-import Properties from '../config/properties.interface';
 import jwt from 'jsonwebtoken';
+import { SECRET_KEY } from '../config/env';
 
 export default class AuthenticationFilter {
 
     authFilter(req: any, res: Response, next: NextFunction) {
-        const token = req.headers["Authorization"]?.split(" ")[1];
-
+        const token = req.headers['authorization'];
         if (!token) {
-            return res.sendStatus(403);
+            return res.status(401).json({ message: 'No token provided' });
         }
 
-        console.log(req);
-        console.log(res);
-        
-        
-        jwt.verify(token, Properties.SECRET_KEY, (err: any, user: any) => {
-            if (err) return res.sendStatus(403);
-            req.user = user;
+        try {
+            const decoded = jwt.verify(token, SECRET_KEY);
+            req.user = decoded;
             next();
-        });
+        } catch (error) {
+            return res.status(401).json({ message: 'Invalid token' });
+        }
     }
 
     authorizeRole(role: string) {
-        return (req:any, res: Response, next: NextFunction) => {
-            if (req.user.role !== role) return res.sendStatus(401);
-            next();
+        return (req: any, res: Response, next: NextFunction) => {
+            if (req.user && req.user.role === role) {
+                next();
+            } else {
+                res.status(403).json({ message: 'Forbidden' });
+            }
         };
     }
 }

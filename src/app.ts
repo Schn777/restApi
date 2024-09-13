@@ -42,10 +42,10 @@ app.use(express.json());
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, TypeScript with Express!');
 });
+
 app.use('/api', userRoutes);
 app.use('/api', authRoutes);
-app.use('/api', productRoutes, filter.authFilter);
-
+app.use('/api', filter.authFilter, productRoutes);
 
 app.use(errorMiddleware);
 
