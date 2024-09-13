@@ -5,12 +5,12 @@ import LoginDTO from '../payloads/dto/login.dto';
 import { User } from '../interfaces/user.interface';
 import { hashPassword, verifyPassword } from '../utils/security.utils';
 import AuthenticationResponseObject from '../payloads/response/authResponseObject.vm';
-
+import { SECRET_KEY } from "../config/env"
 
 export class AuthService {
     
+    
     private static users: User[] = []; // Un tableau pour stocker des utilisateurs fictifs
-    public static SECRET_KEY = '7bFEnV8PM1Z+reWc3Cil/6YiOAxbpfOwF2E4P3CCFmbZkCheXMmr90xJa7xJYL2s'; // Utilisée pour signer les JWT (garder cette clé sécurisée)
     private static idCount : number = 0;
     
     static async register(registrationDto: RegistrationDTO) : Promise<AuthenticationResponseObject> {
@@ -21,7 +21,7 @@ export class AuthService {
                 id: this.idCount++,
                 name: registrationDto.name
             });
-            const token = jwt.sign({ username: registrationDto.username }, this.SECRET_KEY, { expiresIn: '1h' });
+            const token = jwt.sign({ username: registrationDto.username }, SECRET_KEY, { expiresIn: '1h' });
             return {
                 code: 200,
                 jwt: token,
@@ -31,7 +31,7 @@ export class AuthService {
             return {
                 code: 400,
                 jwt: "",
-                message: e as string,
+                message: e as any,
             };
         }
     }
@@ -49,7 +49,7 @@ export class AuthService {
         }
     
         // Génération d'un JWT
-        const token = jwt.sign({ username: user.username }, this.SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ username: user.username }, process.env.SECRET_KEY ?? "", { expiresIn: '1h' });
         return {
             code: 200,
             message: "Logged in Successfully",

@@ -42,12 +42,10 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello, TypeScript with Express!');
 });
 
-// API routes
 app.use('/api', userRoutes);
 app.use('/api', authRoutes);
-app.use('/api', productRoutes, filter.authFilter);
+app.use('/api', filter.authFilter, productRoutes);
 
-// Error handling middleware
 app.use(errorMiddleware);
 
 // HTTPS server options
