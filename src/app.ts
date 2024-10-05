@@ -10,7 +10,8 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import AuthenticationFilter from './middlewares/auth.middleware';
 import { config } from './config/config';
-
+import { User } from './models/user.model';
+import GetAllData from './utils/fetch.all.data';
 // Create an instance of AuthenticationFilter
 const filter = new AuthenticationFilter();
 const app = express();
@@ -34,17 +35,29 @@ const swaggerOptions = {
 // Generate documentation from options
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
+GetAllData.initialize();
+
+
 // Serve Swagger documentation at '/api-docs'
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Basic route
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript with Express!');
+
+app.get('/', async (req: Request, res: Response) => {
+    try {
+        // Créez un nouvel utilisateur
+
+        
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ message: "An error occurred" });
+    }
 });
 
-app.use('/api', userRoutes);
-app.use('/api', authRoutes);
-app.use('/api', filter.authFilter, productRoutes);
+
+
+app.use('/api/v1', authRoutes);
+app.use('/api/v1',productRoutes);
 
 app.use(errorMiddleware);
 

@@ -1,58 +1,54 @@
 import jwt from 'jsonwebtoken';
 import RegistrationDTO from '../payloads/dto/register.dto';
 import LoginDTO from '../payloads/dto/login.dto';
-import { User } from '../interfaces/user.interface';
+import { User } from '../models/user.model';
 import { hashPassword, verifyPassword } from '../utils/security.utils';
 import AuthenticationResponseObject from '../payloads/response/authResponseObject.vm';
-import { config } from "../config/config"
+import { config } from "../config/config";
+import { UserService } from './user.service';
 
 export class AuthService {
     
-    
-    private static users: User[] = []; // Un tableau pour stocker des utilisateurs fictifs
-    private static idCount : number = 0;
-    
     static async register(registrationDto: RegistrationDTO) : Promise<AuthenticationResponseObject> {
         try {
-            this.users.push({ 
-                username: registrationDto.username , 
-                password: await hashPassword(registrationDto.password.trim()),
-                id: this.idCount++,
-                name: registrationDto.name
-            });
-            const token = jwt.sign({ username: registrationDto.username }, config.SECRET_KEY, { expiresIn: '1h' });
+           
+            await UserService.createUser(registrationDto);
+            const token = jwt.sign({ username: registrationDto.email }, config.SECRET_KEY, { expiresIn: '1h' });
             return {
                 code: 200,
                 jwt: token,
                 message: "Successfully Registererd."
             }
         } catch (e) {
-            return {
-                code: 400,
-                jwt: "",
-                message: e as any,
-            };
+            throw new Error(""+ e)
         }
     }
 
     static async authenticate(loginDto: LoginDTO) : Promise<AuthenticationResponseObject> {
-        const user = this.users.find(u => u.username === loginDto.username.trim());
+        try{
+            const result  = await UserService.getUserByEmail(loginDto.email);
 
-        if (!user) {
-            return {code : 400, message: 'Utilisateur non trouvé', jwt:""}
+            if (result instanceof Error) {
+                return {code : 400, message: 'Utilisateur non trouvé', jwt:""}
+            }
+            const user : User = result;
+            
+            const isValidPassword = await verifyPassword(loginDto.password.trim(), user.password);
+            if (!isValidPassword) {
+                return {code : 400, message: 'Mot de passe incorrect', jwt: ""}
+            }
+        
+            // Génération d'un JWT
+            const token = jwt.sign({ email: user.email },(user.isAdmin? config.SECRET_KEY_ADMIN : config.SECRET_KEY), { expiresIn: '1h' });
+            return {
+                code: 200,
+                message: "Logged in Successfully",
+                jwt: token,
+            }
+        }
+        catch(error){
+            throw new Error
         }
         
-        const isValidPassword = await verifyPassword(loginDto.password.trim(), user.password);
-        if (!isValidPassword) {
-            return {code : 400, message: 'Mot de passe incorrect', jwt: ""}
-        }
-    
-        // Génération d'un JWT
-        const token = jwt.sign({ username: user.username }, process.env.SECRET_KEY ?? "", { expiresIn: '1h' });
-        return {
-            code: 200,
-            message: "Logged in Successfully",
-            jwt: token,
-        }
     }
 }

@@ -40,7 +40,7 @@ router.post('/auth', AuthController.Authenticate);
  * /api/register:
  *   post:
  *     summary: Register new user
- *     description: Creates a new user account with email, password, and name
+ *     description: Creates a new user account with email, password, name and function
  *     tags: [Authentication]
  *     requestBody:
  *       required: true
@@ -52,6 +52,42 @@ router.post('/auth', AuthController.Authenticate);
  *               name:
  *                 type: string
  *                 description: User's full name
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: User's email address
+ *               charge:
+ *                 type: string
+ *                 description: User's function
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *     responses:
+ *       201:
+ *         description: Successfully registered new user
+ *       400:
+ *         description: Bad request (e.g., invalid data)
+ *       409:
+ *         description: Conflict (email already exists)
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/register', AuthController.Register);
+
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     summary: retreive existing user
+ *     description: login user account with email, password
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
  *               email:
  *                 type: string
  *                 format: email
@@ -69,7 +105,7 @@ router.post('/auth', AuthController.Authenticate);
  *       500:
  *         description: Internal server error
  */
-router.post('/register', AuthController.Register);
+router.post('/login', AuthController.Authenticate);
 
 
 export default router;

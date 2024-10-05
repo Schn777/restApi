@@ -7,7 +7,8 @@ export class AuthController {
             const serviceRes = await AuthService.register({
                 name: req.body.name,
                 password: req.body.password,
-                username: req.body.email,
+                email: req.body.email,
+                charge : req.body.charge
             });
 
             res.status(serviceRes.code).json({
@@ -16,13 +17,13 @@ export class AuthController {
             });
         } catch (error) {
             console.error('Error during registration:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(400).json({ message: 'Invalid fileds' });
         }
     }
 
     public static async Authenticate(req: Request, res: Response): Promise<void> {
         try {
-            const serviceRes = await AuthService.authenticate({ password: req.body.password, username: req.body.email });
+            const serviceRes = await AuthService.authenticate({ password: req.body.password, email: req.body.email });
 
             res.status(serviceRes.code).json({
                 jwt: serviceRes.jwt,
@@ -30,7 +31,20 @@ export class AuthController {
             });
         } catch (error) {
             console.error('Error during authentication:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(401).json({ message: 'Authentication failed'});
+        }
+    }
+    public static async UpdateUser(req: Request, res: Response): Promise<void> {
+        try {
+            const serviceRes = await AuthService.authenticate({ password: req.body.password, email: req.body.email });
+
+            res.status(serviceRes.code).json({
+                jwt: serviceRes.jwt,
+                message: serviceRes.message
+            });
+        } catch (error) {
+            console.error('Error during authentication:', error);
+            res.status(400).json({ message: 'Invalid fileds' });
         }
     }
 }

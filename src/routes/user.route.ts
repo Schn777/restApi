@@ -6,31 +6,36 @@ const userController = new UserController();
 
 /**
  * @swagger
- * /api/users:
- *   get:
- *     deprecated: true
- *     summary: Retrieve a list of users
- *     description: Retrieve a list of users from the API. Can be used to populate a list of users in your system.
+ * /api/handle:
+ *   post:
+ *     summary: Handle user
+ *     description: specify the email you want to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: user@example.com
+ *               name:
+ *                 type: string
+ *                 description: User's name
+ *               charge:
+ *                 type: string
+ *                 description: User's function
  *     responses:
  *       200:
- *         description: A list of users.
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                  id:
- *                     type: integer
- *                     example: 1
- *                  name:
- *                     type: string
- *                     example: John Doe
- *                  mail:
- *                     type: string
- *                     example : john.doe@example.com
+ *         description: Successful authentication
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
  */
-router.get('/users', userController.getAllUsers);
+router.post('/handle', userController.updateUser);
 
 export default router;

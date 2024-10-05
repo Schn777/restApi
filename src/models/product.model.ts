@@ -1,10 +1,31 @@
-import { IProduct } from '../interfaces/product.interface';
 
-export class Product implements IProduct {
+export class Product {
+    private static increment: number = 0;
+    id: number;
+
+    name: string;
+
+    category: string | null;
+
+    quantity: number;
+
+    price: number;
+
+    description: string | null;  
+
     constructor(
-        public id: number,
-        public name: string,
-        public price: number,
-        public description: string
-    ) {}
+        name: string,
+        category: string | null,
+        quantity: number,
+        price: number,
+        description: string | null
+    ) {
+        this.id = Product.increment;
+        this.name = name;
+        this.category = category;
+        this.quantity = quantity;
+        this.price = price;
+        this.description = description;
+        Product.increment++;
+    }
 }

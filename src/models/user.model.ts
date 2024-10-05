@@ -1,10 +1,32 @@
-import { User } from '../interfaces/user.interface';
 
-export class UserModel implements User {
+export class User{
+  private static increment: number = 0;
+  id: number ;
+
+  name: string;
+
+  email: string;
+
+  charge?: string | null;
+
+  isAdmin?: boolean | null;
+
+  password: string;
+
   constructor(
-    public id: number, 
-    public name: string, 
-    public username: string,
-    public password: string,
-  ) {}
+    name: string,
+    email: string,
+    password: string,
+    charge?: string | null,
+    isAdmin?: boolean | null
+  ) {
+    this.id = User.increment;
+    this.name = name;
+    this.email = email;
+    this.charge = charge ?? null;
+    this.password = password;
+    this.isAdmin = isAdmin ?? null;
+    User.increment ++;
+
+  }
 }

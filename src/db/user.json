@@ -1,0 +1,42 @@
+[
+  {
+    "id": 0,
+    "name": "johnd",
+    "email": "john@gmail.com",
+    "charge": "employe",
+    "password": "$2a$10$XbEd.6cME2Sr2tSPWBylD.2dkxpSzB5U6vO8wgv4kiq990Ky1McOO",
+    "isAdmin": false
+  },
+  {
+    "id": 1,
+    "name": "mor_2314",
+    "email": "morrison@gmail.com",
+    "charge": "employe",
+    "password": "$2a$10$KuBIZA8KBPcSVg.qO52uN.vfvSPE2wxAOH.PRrN.rDZffUBox//VC",
+    "isAdmin": false
+  },
+  {
+    "id": 2,
+    "name": "kevinryan",
+    "email": "kevin@gmail.com",
+    "charge": "employe",
+    "password": "$2a$10$Solj80O4j5u59uyuzRzC2OWTDUNZrNtjEHvOLZdciJRYVnlr45UnW",
+    "isAdmin": false
+  },
+  {
+    "id": 3,
+    "name": "donero",
+    "email": "don@gmail.com",
+    "charge": "employe",
+    "password": "$2a$10$MPiRGKHyd3XkByS/swQasOEuFowotJFKwhfWcqqgMZmy/Smv5ShO6",
+    "isAdmin": false
+  },
+  {
+    "id": 4,
+    "name": "derek",
+    "email": "derek@gmail.com",
+    "charge": "employe",
+    "password": "$2a$10$To2BGLPkjIYUp58/a1GEduHcDZH8cFambjyD6gGKBAM.eqLxBw4Ui",
+    "isAdmin": false
+  }
+]
