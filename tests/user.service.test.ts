@@ -1,12 +1,44 @@
-import { UserService } from '../src/services/user.service';
+import request from 'supertest';
+import app from "../src/app"
+import exp from 'constants';
 
-jest.mock('../src/services/user.service');  // Mock du service pour les tests
+describe('POST /api/v1/register', () => {
+  it('should return 400 for invalid credentials', async () => {
+    const response = await request(app)
+      .post('/api/v1/register')
+      .send({ name: "joe",
+              email: "userexample.com",
+              charge: "employe",
+              password: "string" });
 
-test('should return all users', async () => {
-  // Simuler une réponse de getAllUsers
-  (UserService.getAllUsers as jest.Mock).mockResolvedValue([{ id: 1, name: 'John Doe' }]);
+    expect(response.status).toBe(400);
+    //expect(response.body.message).toBe('Login successful');
+  });
 
-  const users = await UserService.getAllUsers();
-  expect(users.length).toBe(1);
-  expect(users[0].name).toBe('John Doe');
+  it('should return 200 for valid credentials', async () => {
+    const response = await request(app)
+      .post('/api/v1/register')
+      .send({ name: "joe",
+              email: "user@example.com",
+              charge: "employe",
+              password: "string" });
+
+    expect(response.status).toBe(200);
+    //expect(response.body.message).toBe('Login successful');
+  });
 });
+
+describe('POST /api/v1/login', () => {
+  it('Should return 404 for user doesn\'t exists ', async () =>{
+    const response = await request(app)
+    .post('/api/v1/login')
+    .send({email: 'Edwards@gmail.com', password : "abc-123"})
+
+    expect(response.status).toBe(401)
+  })
+});
+
+afterEach(() => {
+  jest.clearAllTimers(); // Nettoyez les timers après chaque test
+});
+

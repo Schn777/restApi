@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
 import ProductService from '../services/product.services';
-import { error } from 'console';
-
 export class ProductController {
     static async getProducts(req: Request, res: Response) {
         try{
@@ -16,7 +14,6 @@ export class ProductController {
     static async productPriceFilter(req: Request, res: Response) {
         try{
             const products = await ProductService.productsFilterPrice(req.body.minPrice, req.body.maxPrice);
-            console.log(products)
             res.status(200).json(products);
             
         }
@@ -27,7 +24,6 @@ export class ProductController {
     static async productStockFilter(req: Request, res: Response) {
         try{
             const products = await ProductService.productsFilterQte(req.body.minStock, req.body.maxStock);
-            console.log(products)
             res.status(200).json(products);
             
         }
@@ -39,14 +35,12 @@ export class ProductController {
         try{
             const {name,description,price,quantity } = req.body
             const products = await ProductService.createProduct({name:name,description:description,price:price,quantity:quantity});
-            console.log(products)
             if(!products){
                 res.status(400).json({message : "Invalid fields"});
             }
             res.status(201).json(products);   
         }
         catch(error){
-            console.log(error);
             res.status(401).json({message : "User non authorize"});
         }
     }
@@ -60,7 +54,6 @@ export class ProductController {
             res.status(200).json({message : id + " Has been updated "});
         }
         catch(error){
-            console.error("Operation failed");
             res.status(404).json({ message: 'Product not found'});
         }
     }
@@ -70,7 +63,6 @@ export class ProductController {
             res.status(204).send({message:"Product " + req.body.id + " Has been deleting"});
         }
         catch(error){
-            console.error("Operation failed");
             res.status(404).json({ message: 'Product not found'});
         }
     }

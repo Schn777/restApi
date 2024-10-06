@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Product } from '../models/product.model';
-import e from 'express';
+import logger from '../utils/logger';
 
 export default class JsonData {
 
@@ -15,7 +14,7 @@ export default class JsonData {
             const fileContent = await fs.promises.readFile(path, 'utf-8');
             return JSON.parse(fileContent);
         } catch (error) {
-            console.error(`Error reading or parsing JSON file: ${error}`);
+            logger.error(`Error reading or parsing JSON file: ${error}`);
             return [];
         }
     }
@@ -26,20 +25,20 @@ export default class JsonData {
             const updatedList = [...list, ...data];
             const path = this.getPath(fileName);
             await fs.promises.writeFile(path, JSON.stringify(updatedList, null, 2));
-            console.log('Successfully wrote file');
+            logger.info('Successfully wrote file');
             return data;
             
         } catch (error) {
-            console.error('Error writing file:', error);
+            logger.error('Error writing file:', error);
         }
     }
     public static async delAllData(fileName:string): Promise<any> {
         try {
             const path = this.getPath(fileName);
             await fs.promises.writeFile(path,"");
-            console.log('Successfully delete file');
+            logger.info('Successfully delete file');
         } catch (error) {
-            console.error('Error deleting file:', error);
+            logger.error('Error deleting file:', error);
         }
     }
     public static async findOneById(id:number,fileName:string){
@@ -49,7 +48,7 @@ export default class JsonData {
             return object;
         }
         catch(error){
-            console.log("error while retreive by id", error);
+            logger.log("error while retreive by id", error);
         }
     }
     public static async deleteById(id:number, fileName:string) : Promise<boolean | Error>{
@@ -64,7 +63,7 @@ export default class JsonData {
             return true;
         }
         catch(error){
-            console.error("error while deleting object", error);
+            logger.error("error while deleting object", error);
             throw new Error;
         }
         

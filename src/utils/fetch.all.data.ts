@@ -3,6 +3,7 @@ import { Product } from '../models/product.model';
 import JsonData from '../services/jsonServices';
 import { User } from '../models/user.model';
 import { hashPassword } from './security.utils';
+import logger from './logger';
 
 export default class GetAllData {
     private static async fetchProducts(): Promise<void> {
@@ -25,7 +26,7 @@ export default class GetAllData {
             await JsonData.writeJson('product.json',list);
 
         } catch (error) {
-            console.log("Error while fetching products from fake store:", error);
+            logger.log("Error while fetching products from fake store:", error);
         }
     }
     private static async fetchUser(): Promise<void>{
@@ -47,7 +48,7 @@ export default class GetAllData {
             await JsonData.writeJson('user.json',list);
 
         } catch (error){
-            console.log("Error while fetching users from fake store:", error);
+            logger.log("Error while fetching users from fake store:", error);
         }
     }
     public static async initialize(){
@@ -56,7 +57,8 @@ export default class GetAllData {
            await this.fetchUser();
         }
         catch(error){
-            throw new Error(""+error)
+            logger.error("Failed to initialize JSON file");
+            throw new Error(""+error);
         }
     }
 }

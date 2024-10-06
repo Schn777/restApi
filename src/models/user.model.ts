@@ -1,4 +1,3 @@
-
 export class User{
   private static increment: number = 0;
   id: number ;

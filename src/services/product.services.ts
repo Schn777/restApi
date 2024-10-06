@@ -1,9 +1,8 @@
 import { Product } from "../models/product.model";
-import { Between, LessThan } from "typeorm"
-import { MoreThan } from "typeorm"
 import ProductDto from "../payloads/dto/product.dto";
 import Regex from "../regex/regex";
 import JsonData from "./jsonServices";
+import logger from "../utils/logger";
 
 export default class ProductService{
 
@@ -13,11 +12,11 @@ export default class ProductService{
     public static async getAllProducts():Promise<Product[] | Error>{
         try{
             const products:Product[] = await JsonData.readJson(this.fileName);
-            console.log("service")
+            logger.info("get all product");
             return products;
         }
         catch(error){
-            console.log("error fetching product ", error);
+            logger.log("error fetching product ", error);
             throw new Error("error fetching product ");
         }
         
@@ -36,7 +35,7 @@ export default class ProductService{
             return filteredProducts;
         }
         catch(error){
-            console.log("error fetching product by price", error);
+            logger.log("error fetching product by price", error);
             throw new Error("error fetching product by price");
         }
     }
@@ -54,7 +53,7 @@ export default class ProductService{
           return filteredProducts;
         }
         catch(error){
-            console.log("error fetching product by quantity left ", error);
+            logger.log("error fetching product by quantity left ", error);
             throw new Error("error fetching product by quantity left ");
         }
         
@@ -79,7 +78,7 @@ export default class ProductService{
             }   
         }
         catch(error){
-            console.log("error creating product ", error)
+            logger.log("error creating product ", error)
             throw new Error ("error creating product ");
         }  
     };
@@ -112,7 +111,7 @@ export default class ProductService{
             }
         }
         catch(error){
-            console.log("error editing product ", error);
+            logger.log("error editing product ", error);
             throw new Error ("error editing product ");
         }
         
@@ -125,7 +124,7 @@ export default class ProductService{
             return await JsonData.deleteById(id, this.fileName);
         }
         catch(error){
-            console.log("error editing product ", error);
+            logger.log("error editing product ", error);
             throw new Error ("error editing product ");
         }
         

@@ -2,10 +2,11 @@ import jwt from 'jsonwebtoken';
 import RegistrationDTO from '../payloads/dto/register.dto';
 import LoginDTO from '../payloads/dto/login.dto';
 import { User } from '../models/user.model';
-import { hashPassword, verifyPassword } from '../utils/security.utils';
+import {verifyPassword } from '../utils/security.utils';
 import AuthenticationResponseObject from '../payloads/response/authResponseObject.vm';
 import { config } from "../config/config";
 import { UserService } from './user.service';
+import logger from '../utils/logger';
 
 export class AuthService {
     
@@ -14,12 +15,14 @@ export class AuthService {
            
             await UserService.createUser(registrationDto);
             const token = jwt.sign({ username: registrationDto.email }, config.SECRET_KEY, { expiresIn: '1h' });
+            logger.info("Successfully Registererd");
             return {
                 code: 200,
                 jwt: token,
                 message: "Successfully Registererd."
             }
         } catch (e) {
+            logger.warn("Register failed");
             throw new Error(""+ e)
         }
     }
@@ -29,17 +32,20 @@ export class AuthService {
             const result  = await UserService.getUserByEmail(loginDto.email);
 
             if (result instanceof Error) {
-                return {code : 400, message: 'Utilisateur non trouvé', jwt:""}
+                logger.info("Utilisateur non trouvé");
+                return {code : 401, message: 'Utilisateur non trouvé', jwt:""}
             }
             const user : User = result;
             
             const isValidPassword = await verifyPassword(loginDto.password.trim(), user.password);
             if (!isValidPassword) {
-                return {code : 400, message: 'Mot de passe incorrect', jwt: ""}
+                logger.info("Mot de passe incorrect");
+                return {code : 401, message: 'Mot de passe incorrect', jwt: ""}
             }
         
             // Génération d'un JWT
             const token = jwt.sign({ email: user.email },(user.isAdmin? config.SECRET_KEY_ADMIN : config.SECRET_KEY), { expiresIn: '1h' });
+            logger.info("Logged in Successfully");
             return {
                 code: 200,
                 message: "Logged in Successfully",
@@ -47,7 +53,8 @@ export class AuthService {
             }
         }
         catch(error){
-            throw new Error
+            logger.warn("Authentication failed");
+            throw new Error;
         }
         
     }

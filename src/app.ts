@@ -2,16 +2,14 @@ import express, { Request, Response } from 'express';
 import https from 'https';
 import fs from 'fs';
 import path from 'path';
-import userRoutes from './routes/user.route';
 import productRoutes from './routes/product.route';
 import authRoutes from './routes/auth.route';
-import { errorMiddleware } from './middlewares/error.middleware';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import AuthenticationFilter from './middlewares/auth.middleware';
 import { config } from './config/config';
-import { User } from './models/user.model';
 import GetAllData from './utils/fetch.all.data';
+import logger from './utils/logger';
 // Create an instance of AuthenticationFilter
 const filter = new AuthenticationFilter();
 const app = express();
@@ -35,31 +33,24 @@ const swaggerOptions = {
 // Generate documentation from options
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
+// Fetch all data from fake store
 GetAllData.initialize();
-
 
 // Serve Swagger documentation at '/api-docs'
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Basic route
-
 app.get('/', async (req: Request, res: Response) => {
     try {
-        // Créez un nouvel utilisateur
-
-        
+      res.json("welcome to RESTful API for Inventory Management");
     } catch (error) {
-        console.error("Error:", error);
+        logger.error("Error:", error);
         res.status(500).json({ message: "An error occurred" });
     }
 });
 
-
-
 app.use('/api/v1', authRoutes);
 app.use('/api/v1',productRoutes);
-
-app.use(errorMiddleware);
 
 // HTTPS server options
 const httpsOptions: https.ServerOptions = {
@@ -68,9 +59,15 @@ const httpsOptions: https.ServerOptions = {
 };
 
 // Create and start the HTTPS server
-const port = config.PORT;
-https.createServer(httpsOptions, app).listen(port, () => {
-  console.log(`Server is running on https://localhost:${port}`);
-});
+try{
+  const port = config.PORT;
+  https.createServer(httpsOptions, app).listen(port, () => {
+    logger.info(`Server is running on https://localhost:${port}`);
+  });
+}
+catch(e){
+  logger.warn(e);
+}
+
 
 export default app;
