@@ -1,42 +1,58 @@
 [
   {
-    "id": 1,
+    "id": 0,
     "name": "johnd",
     "email": "john@gmail.com",
     "charge": "employe",
-    "password": "$2a$10$/FCvbl3tgKwfuhxlwLFctOKve6XB8OjhBTfJVrM6vQkK7LToVZLSy",
+    "password": "$2a$10$Mu9pnKQ2CzwEIadkGXMcl.cq1rreKacMxwZsWV2EpbpBsP3gxAWk6",
+    "isAdmin": false
+  },
+  {
+    "id": 1,
+    "name": "mor_2314",
+    "email": "morrison@gmail.com",
+    "charge": "employe",
+    "password": "$2a$10$iGexPbjflM6IH51S/HbSceA7fXFKZ9XZyUJ86o0pZ//xwdIsHqTle",
     "isAdmin": false
   },
   {
     "id": 2,
-    "name": "mor_2314",
-    "email": "morrison@gmail.com",
+    "name": "kevinryan",
+    "email": "kevin@gmail.com",
     "charge": "employe",
-    "password": "$2a$10$opFmKzHOXIsPcd/2QJuWF.cMnWE.mzV2sqUSMISnY4Ed1wf75QxGu",
+    "password": "$2a$10$uLCKrDJP4VAVnEaa5nqCGeCI0hHXQHv3fDoqKkRF3kostyH5yRUpW",
     "isAdmin": false
   },
   {
     "id": 3,
-    "name": "kevinryan",
-    "email": "kevin@gmail.com",
+    "name": "donero",
+    "email": "don@gmail.com",
     "charge": "employe",
-    "password": "$2a$10$QQK1gCMfjl6vzdTwp4SoIOZEcyyJS7A3IVFW8/tTFE/eo/EsIgemu",
+    "password": "$2a$10$hbMUwBTiBpTXCc7Mgc97f.3j5J/xNhnw15TswEap9u0KxYcto7xMG",
     "isAdmin": false
   },
   {
     "id": 4,
-    "name": "donero",
-    "email": "don@gmail.com",
+    "name": "derek",
+    "email": "derek@gmail.com",
     "charge": "employe",
-    "password": "$2a$10$r4N6K5Puq6pwE1GscHqpNO/e0NopwSm3BnteOCbPvS.WLoBxKrcE.",
+    "password": "$2a$10$dz2u6Tie8FGQjeUIJljRSuktpK4hQufbu8/Y0WgInaSxJDSlMPaXq",
     "isAdmin": false
   },
   {
     "id": 5,
-    "name": "derek",
-    "email": "derek@gmail.com",
+    "name": "user",
+    "email": "user@example.com",
     "charge": "employe",
-    "password": "$2a$10$eFUjR1plJ0juIwHlzR2UpuZi0BKEKT/RZS7H31em9nzHUmeoPGjNq",
+    "password": "$2a$10$Ev/E8.zsT/1Rd.yUHIv3gO1ZL93lqTZ9WNcEqoH6X4G.kPaDheoIq",
     "isAdmin": false
+  },
+  {
+    "id": 6,
+    "name": "admin",
+    "email": "admin@example.com",
+    "charge": "gestionnaire",
+    "password": "$2a$10$bzM9Onsmppa74PGUp8W24.IkFoRmXh0PAZFqU95DzPXemUAoUpXNe",
+    "isAdmin": true
   }
 ]

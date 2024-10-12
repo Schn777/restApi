@@ -48,7 +48,7 @@ router.get('/products', filter.authFilter, ProductController.getProducts);
 
 /**
  * @swagger
- * /api/products:
+ * /api/create-products:
  *   post:
  *     summary: Create a new product.
  *     description: Allows the creation of a new product by providing the name, description, price, and quantity. Validates input data.
@@ -84,7 +84,7 @@ router.get('/products', filter.authFilter, ProductController.getProducts);
  *       401:
  *         description: Unauthorized user.
  */
-router.post('/admin/products', ProductController.createProduct);
+router.post('/admin/create-products', ProductController.createProduct);
 
 /**
  * @swagger
@@ -135,7 +135,7 @@ router.put('/admin/products/:id', ProductController.editProduct);
 
 /**
  * @swagger
- * /api/products/{id}:
+ * /api/delete-products/{id}:
  *   delete:
  *     summary: Delete a product.
  *     description: Deletes a product from the catalog by its ID. Returns 404 if the product does not exist.
@@ -155,6 +155,85 @@ router.put('/admin/products/:id', ProductController.editProduct);
  *       401:
  *         description: Unauthorized user.
  */
-router.delete('/admin/products/:id', ProductController.deleteProduct);
+router.delete('/admin/delete-products/:id', ProductController.deleteProduct);
+
+/**
+ * @swagger
+ * /api/filter-price:
+ *   get:
+ *     summary: filter.
+ *     description: filter product by min price and max price.
+ *     responses:
+ *       200:
+ *         description: product filtered.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                  minPrice:
+ *                     type: float
+ *                     example: 10.00
+ *                  maxPrice:
+ *                     type: float
+ *                     example: 30.00
+ */
+router.post('/admin/filter-price', ProductController.productPriceFilter);
+/**
+ * @swagger
+ * /api/filter-stock:
+ *   get:
+ *     summary: filter.
+ *     description: filter product by min quantity and max quantity.
+ *     responses:
+ *       200:
+ *         description: product filtered.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                  minQte:
+ *                     type: integer
+ *                     example: 10
+ *                  maxQte:
+ *                     type: integer
+ *                     example: 30
+ */
+router.post('/admin/filter-stock', ProductController.productStockFilter);
+/**
+ * @swagger
+ * /api/edit-product:
+ *   get:
+ *     summary: edit a product.
+ *     description: modify a product by specifying the name,description,price and quantity .
+ *     responses:
+ *       200:
+ *         description: product updated.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                  name:
+ *                     type: string
+ *                     example: rocket
+ *                  description:
+ *                     type: string
+ *                     example: Software
+ *                  price:
+ *                     type: float
+ *                     example : 12.38
+ *                  quantity: 
+ *                     type: integer
+ *                     example : "100"
+ */
+router.put('/admin/edit-product', ProductController.editProduct);
 
 export default router;

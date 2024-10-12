@@ -38,7 +38,7 @@ export class ProductController {
             if(!products){
                 res.status(400).json({message : "Invalid fields"});
             }
-            res.status(201).json(products);   
+            res.status(201).json(products);
         }
         catch(error){
             res.status(401).json({message : "User non authorize"});
