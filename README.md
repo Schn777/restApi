@@ -1,119 +1,126 @@
-# Exemple de projet Node.js avec TypeScript et Express
+<a name="hautPage"></a>
 
-## Description
+<h1 align="center"><i> TP01: Développement d'une API RESTful pour la gestion d'inventaire </i></h1>
+<h2 align="center">Remis par Schneider Emile 2268126</h2>
+<h2 align="center">Collecte et Interpretation de données 420-514-MV Cégep Marie-Victorin</h2>
 
-Ce projet est une application **Node.js** utilisant **TypeScript** et **Express** pour créer un serveur API REST. Il est structuré avec des dossiers pour les contrôleurs, les services, les modèles, et utilise Jest pour les tests unitaires.
+---
 
-## Prérequis
+## :label: Table des matières
 
-Assurez-vous d'avoir installé les éléments suivants sur votre machine :
+- [Contexte du travail](#contexte-du-travail)
+- [Fonctionnalites](#fonctionnalites)
+- [Installation de l'application](#installation-de-lapplication)
+- [API online FakeStore](#api-online-fakestore)
+- [Documentation Swagger](#documentation-swagger)
+- [Documentation Postman](#documentation-postman)
+- [Fichier .env](#fichier-env)
 
-- [Node.js](https://nodejs.org/en/) (v12 ou supérieure)
-- [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
+---
 
-## Installation
+## Contexte du travail
+:mortar_board:Ce projet vise à développer une API RESTful avec Node.js pour gérer l'inventaire d'une entreprise de distribution. L'API permet aux gestionnaires de créer, modifier et supprimer des produits, tandis que les employés peuvent consulter la liste des produits. Elle est sécurisée grâce à l'authentification JWT, avec une gestion des rôles pour restreindre l'accès à certaines fonctionnalités.
 
-1. Clonez le projet :
+---
 
-   ```bash
-   git clone https://github.com/la-sarita/420-514_A24.git
-   cd 420-514_A24/mon-projet-express-typescript
+## Fonctionnalites
 
-   ```
+### 1. **Gestion des produits**
+:necktie:
+- **GET /api/v1/products** : Récupérer la liste des produits avec possibilité de filtrer par prix et quantité.
+- **POST /api/v1/admin/filter-price** : Filtrer la liste des produits par prix.
+- **POST /api/v1/admin/filter-stock** : Filtrer la liste des produits par quantité.
+- **POST /api/v1/admin/create-products** : Créer un nouveau produit (seulement accessible aux gestionnaires).
+- **PUT /api/v1/admin/products/:id** : Modifier un produit existant (gestionnaire uniquement).
+- **DELETE /api/v1/admin/delete-products/:id** : Supprimer un produit de l'inventaire (gestionnaire uniquement).
 
-2. Installez les dépendances du projet :
+### 2. **Gestion des utilisateurs et sécurité**
+:policeman:
+- **POST /api/v1/login** : Authentification des utilisateurs avec email et mot de passe, et génération d'un token JWT.
+- **Rôles** :
+  - **Gestionnaire** : Accès complet (ajout, modification, suppression).
+  - **Employé** : Consultation uniquement.
+- **Sécurisation** : Toutes les requêtes doivent être envoyées via HTTPS.
 
-   ```bash
-   npm install
-   ```
+### 3. **Autres fonctionnalités**
+:computer:
+- **Validation des données** : Validation stricte des entrées utilisateurs (nom, prix, quantité, etc.).
+- **Versioning** : L'API est versionnée avec le préfixe `/v1/`.
+- **Documentation Swagger** : Documentation interactive via Swagger pour tester et comprendre l'API.
+- **Persistance des données** : Les produits sont initialement peuplés à partir de l'[API Fake Store](https://fakestoreapi.com/).
+- **Journalisation** : Les opérations importantes sont loguées avec un timestamp pour la gestion des erreurs et des audits.
 
-## Configuration
+---
 
-Créez un fichier `.env` à la racine du projet pour stocker les variables d'environnement, par exemple :
+## Installation de l'application
+:floppy_disk: npm install
 
-```bash
-PORT=3000
-DATABASE_URL=postgres://user:password@localhost:5432/dbname
-```
-
-## Scripts disponibles
-
-Voici quelques scripts importants que vous pouvez exécuter avec npm :
-
-- **Démarrer le projet en développement :**
-
-   ```bash
-   npm run start
-   ```
-
-   Utilise `ts-node-dev` pour démarrer le serveur avec hot-reload.
-
-- **Compiler TypeScript en JavaScript :**
-
-   ```bash
-   npm run build
-   ```
-
-   Compile les fichiers TypeScript dans le dossier `dist/`.
-
-- **Exécuter les tests unitaires :**
-
-   ```bash
-   npm run test
-   ```
-
-   Exécute les tests avec Jest.
-
-## Structure du projet
-
-Voici la structure des dossiers du projet :
-
-```
-├── src/
-│   ├── controllers/        # Contrôleurs Express pour gérer les routes
-│   ├── interfaces/         # Interfaces TypeScript
-│   ├── middlewares/        # Middlewares Express
-│   ├── models/             # Modèles de données
-│   ├── routes/             # Définition des routes Express
-│   ├── services/           # Services pour la logique métier
-│   ├── utils/              # Utilitaires du projet
-│   ├── app.ts              # Configuration de l'application Express
-│   ├── server.ts           # Point d'entrée pour démarrer le serveur
-├── tests/                  # Tests unitaires avec Jest
-├── dist/                   # Fichiers compilés (générés après la compilation)
-├── package.json            # Fichier de configuration des dépendances et scripts
-├── tsconfig.json           # Configuration de TypeScript
-└── README.md               # Documentation du projet
-```
-
-## Démarrage
-
-1. Démarrez le serveur avec la commande suivante :
+1. **Cloner le dépôt :**
 
    ```bash
-   npm run start
-   ```
+   git clone https://github.com/Schn777/restApi.git
+   git checkout tp1
+   
+---
 
-2. Par défaut, le serveur est disponible sur [http://localhost:3000](http://localhost:3000).
+## API online FakeStore
+:minidisc:  <br>
+Consulter l'API : <https://fakestoreapi.com/><br>
+![image](https://github.com/user-attachments/assets/7ffa0e39-c3e9-4223-b2b8-840ea99dd69b)
 
-## Tests
+---
 
-Pour exécuter les tests unitaires avec Jest, utilisez la commande suivante :
+## Documentation Swagger
+:abacus:<br>
+![image](https://github.com/user-attachments/assets/c519c950-0273-4412-87ec-e9ee969a0249)
 
-```bash
-npm run test
-```
+Ouvrez un terminal et démarrez l'API avec la requête 'npm run start'.  
+Dans votre browser, allez à : <https://localhost:3000/v1/api-docs/>
 
-Les tests se trouvent dans le dossier `tests/`.
 
-## Contribution
+---
 
-1. Forkez ce dépôt
-2. Créez votre branche de fonctionnalité (`git checkout -b feature/nouvelle-fonctionnalité`)
-3. Commitez vos modifications (`git commit -m 'Ajouter une nouvelle fonctionnalité'`)
-4. Poussez votre branche (`git push origin feature/nouvelle-fonctionnalité`)
-5. Ouvrez une Pull Request
+## Documentation Postman
+:envelope: <br>
+ Postman : <https://www.postman.com/downloads/> <br>
+ ![image](https://github.com/user-attachments/assets/9c57d2bb-1fb6-432b-b605-46dd0fdc3c27)
 
-## Licence
 
-Ce projet est sous licence [MIT](LICENSE).
+:octocat: Importez la collection Postman du projet GitHub
+Test-rest-api-user-products.postman_collection.json
+
+*Postman joue un rôle essentiel pour tester et valider les différentes fonctionnalités de l'API. Voici ce que Postman permet de faire dans ce contexte*
+
+
+### 1. Tester les Endpoints de l'API
+*Postman permet de simuler des requêtes HTTP (GET, POST, PUT, DELETE) vers les différents endpoints de ton API. Cela permet de vérifier si les routes définies fonctionnent comme prévu :*
+
+Envoyer des requêtes pour consulter la liste des produits (GET /api/v1/products).
+Ajouter un nouveau produit (POST /api/v1/admin/products).
+Modifier un produit existant (PUT /api/v1/admin/products/:id).
+Supprimer un produit (DELETE /api/v1/admin/delete-products/:id).
+
+### 2. Valider les Réponses
+*Postman permet d'observer les réponses renvoyées par ton API, notamment :*
+
+Le code de statut HTTP (200, 201, 400, 401, 404, etc.).
+Le format des données renvoyées (JSON).
+Les messages d'erreurs en cas de validation échouée.
+
+### 3. Tester l'Authentification
+*Postman permet également de tester le système d'authentification via JWT :*
+
+Envoyer des requêtes de connexion (POST /api/v1/login) avec un email et un mot de passe.
+Ajouter le token JWT dans l'en-tête des requêtes pour tester les routes protégées (par exemple, ajouter ou supprimer des produits).
+Cela permet de vérifier si les gestionnaires et les employés ont accès aux bonnes fonctionnalités selon leurs rôles (après la création d'un gestionnaire, il doit se connecter à nouveau pour valider ses autorisations).
+
+### 4. Automatiser les Tests
+*Postman permet de créer des collections de requêtes et d'automatiser leur exécution :*
+
+---
+
+## Fichier .env
+:lock:
+Le fichier .env est inclus dans le projet.  Cependant, les données sensibles ont été retirées par mesure préventive.
+
+🔝: [Retour en haut](#hautPage)
