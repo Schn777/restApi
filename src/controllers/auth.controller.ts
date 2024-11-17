@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth.service';
 export class AuthController {
     public static async Register(req: Request, res: Response): Promise<void> {
         try {
-            const serviceRes = await AuthService.register({
+            const serviceRes = await AuthService.register(req.params.version,{
                 name: req.body.name,
                 password: req.body.password,
                 email: req.body.email,
@@ -22,7 +22,7 @@ export class AuthController {
 
     public static async Authenticate(req: Request, res: Response): Promise<void> {
         try {
-            const serviceRes = await AuthService.authenticate({ password: req.body.password, email: req.body.email });
+            const serviceRes = await AuthService.authenticate(req.params.version,{ password: req.body.password, email: req.body.email });
 
             res.status(serviceRes.code).json({
                 jwt: serviceRes.jwt,

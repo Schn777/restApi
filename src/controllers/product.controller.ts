@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
 import ProductService from '../services/product.services';
+
 export class ProductController {
     static async getProducts(req: Request, res: Response) {
         try{
-            const products = await ProductService.getAllProducts();
+            const version = req.params.version
+            const products = await ProductService.getAllProducts(version);
             res.status(200).json(products);
             
         }
@@ -13,7 +15,8 @@ export class ProductController {
     }
     static async productPriceFilter(req: Request, res: Response) {
         try{
-            const products = await ProductService.productsFilterPrice(req.body.minPrice, req.body.maxPrice);
+            const version = req.params.version
+            const products = await ProductService.productsFilterPrice(version,req.body.minPrice, req.body.maxPrice);
             res.status(200).json(products);
             
         }
@@ -23,7 +26,8 @@ export class ProductController {
     }
     static async productStockFilter(req: Request, res: Response) {
         try{
-            const products = await ProductService.productsFilterQte(req.body.minStock, req.body.maxStock);
+            const version = req.params.version
+            const products = await ProductService.productsFilterQte(version,req.body.minStock, req.body.maxStock);
             res.status(200).json(products);
             
         }
@@ -33,8 +37,9 @@ export class ProductController {
     }
     static async createProduct(req: Request, res: Response) {
         try{
+            const version = req.params.version
             const {name,description,price,quantity } = req.body
-            const products = await ProductService.createProduct({name:name,description:description,price:price,quantity:quantity});
+            const products = await ProductService.createProduct(version,{name:name,description:description,price:price,quantity:quantity});
             if(!products){
                 res.status(400).json({message : "Invalid fields"});
             }
@@ -46,12 +51,14 @@ export class ProductController {
     }
     static async editProduct(req: Request, res: Response) {
         try{
-            const {id,name,description,price,quantity } = req.body;
-            const product = await ProductService.editProduct({id,name,description,price,quantity});
+            const reqParam = {id: req.params.id, version: req.params.version};
+
+            const {name,description,price,quantity } = req.body;
+            const product = await ProductService.editProduct(reqParam,{name,description,price,quantity});
             if(!product){
                 res.status(400).json({message : "Invalid fields"});
             }
-            res.status(200).json({message : id + " Has been updated "});
+            res.status(200).json({message : reqParam.id + " Has been updated "});
         }
         catch(error){
             res.status(404).json({ message: 'Product not found'});
@@ -59,8 +66,9 @@ export class ProductController {
     }
     static async deleteProduct(req: Request, res: Response) {
         try{
-            await ProductService.deleteProduct(req.body.id);
-            res.status(204).send({message:"Product " + req.body.id + " Has been deleting"});
+            const reqParam = {id: req.params.id, version: req.params.version};
+            await ProductService.deleteProduct(reqParam);
+            res.status(200).json({message:"Product " + req.params.id + " Has been deleting"});
         }
         catch(error){
             res.status(404).json({ message: 'Product not found'});

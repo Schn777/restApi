@@ -10,6 +10,7 @@ import AuthenticationFilter from './middlewares/auth.middleware';
 import { config } from './config/config';
 import GetAllData from './utils/fetch.all.data';
 import logger from './utils/logger';
+import InitializeDb from './utils/initialize.db.connection';
 // Create an instance of AuthenticationFilter
 const filter = new AuthenticationFilter();
 const app = express();
@@ -34,7 +35,8 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
 // Fetch all data from fake store
-GetAllData.initialize();
+InitializeDb.connect();
+
 
 // Serve Swagger documentation at '/api-docs'
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
@@ -49,8 +51,8 @@ app.get('/', async (req: Request, res: Response) => {
     }
 });
 
-app.use('/api/v1', authRoutes);
-app.use('/api/v1',productRoutes);
+app.use('/api', authRoutes);
+app.use('/api',productRoutes);
 
 // HTTPS server options
 const httpsOptions: https.ServerOptions = {

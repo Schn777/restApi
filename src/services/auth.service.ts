@@ -10,10 +10,10 @@ import logger from '../utils/logger';
 
 export class AuthService {
     
-    static async register(registrationDto: RegistrationDTO) : Promise<AuthenticationResponseObject> {
+    static async register(version:any,registrationDto: RegistrationDTO) : Promise<AuthenticationResponseObject> {
         try {
            
-            await UserService.createUser(registrationDto);
+            await UserService.createUser(version,registrationDto);
             const token = jwt.sign({ username: registrationDto.email }, config.SECRET_KEY, { expiresIn: '1h' });
             logger.info("Successfully Registererd");
             return {
@@ -27,9 +27,9 @@ export class AuthService {
         }
     }
 
-    static async authenticate(loginDto: LoginDTO) : Promise<AuthenticationResponseObject> {
+    static async authenticate(version:any,loginDto: LoginDTO) : Promise<AuthenticationResponseObject> {
         try{
-            const result  = await UserService.getUserByEmail(loginDto.email);
+            const result  = await UserService.getUserByEmail(version,loginDto.email);
 
             if (result instanceof Error) {
                 logger.info("Utilisateur non trouvé");

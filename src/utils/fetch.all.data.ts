@@ -4,11 +4,14 @@ import JsonData from '../services/jsonServices';
 import { User } from '../models/user.model';
 import { hashPassword } from './security.utils';
 import logger from './logger';
+import ProductModel from '../models/mongo_schema/product.schema';
+import UserModel from '../models/mongo_schema/user.schema';
+import Regex from '../regex/regex';
+
 
 export default class GetAllData {
     private static async fetchProducts(): Promise<void> {
         try {
-            JsonData.delAllData('product.json');
             const response = await axios.get('https://fakestoreapi.com/products?limit=7');
             const products = response.data;
             const list: Product[] = [];
@@ -21,8 +24,11 @@ export default class GetAllData {
                     prod.price,
                     prod.description
                 );
-                list.push(currentProd);
+                if(Regex.validateProduct(currentProd)){
+                    list.push(currentProd);
+                }
             }
+            await ProductModel.insertMany(list);
             await JsonData.writeJson('product.json',list);
 
         } catch (error) {
@@ -31,7 +37,6 @@ export default class GetAllData {
     }
     private static async fetchUser(): Promise<void>{
         try {
-            JsonData.delAllData('user.json');
             const response = await axios.get('https://fakestoreapi.com/users?limit=5');
             const users = response.data;
             const list: User[] = [];
@@ -45,6 +50,7 @@ export default class GetAllData {
                     false);
                 list.push(curentUser);
             };
+            await UserModel.insertMany(list);
             await JsonData.writeJson('user.json',list);
 
         } catch (error){
@@ -53,6 +59,7 @@ export default class GetAllData {
     }
     public static async initialize(){
         try{
+           await this.deleteAll();
            await this.fetchProducts();
            await this.fetchUser();
         }
@@ -61,4 +68,12 @@ export default class GetAllData {
             throw new Error(""+error);
         }
     }
+    private static async deleteAll(){
+        await JsonData.delAllData('user.json');
+        await JsonData.delAllData('product.json');
+        await UserModel.deleteMany({});
+        await ProductModel.deleteMany({});
+    }
+
+
 }

@@ -4,7 +4,7 @@ import AuthenticationFilter from '../middlewares/auth.middleware';
 
 const router = Router();
 const filter = new AuthenticationFilter();
-router.use('/admin', filter.authHandleUser);
+router.use('/v:version/admin', filter.authHandleUser);
 
 /**
  * @swagger
@@ -44,7 +44,7 @@ router.use('/admin', filter.authHandleUser);
  *       400:
  *         description: Invalid request.
  */
-router.get('/products', filter.authFilter, ProductController.getProducts);
+router.get('/v:version/products',filter.authFilter,  ProductController.getProducts);
 
 /**
  * @swagger
@@ -84,7 +84,7 @@ router.get('/products', filter.authFilter, ProductController.getProducts);
  *       401:
  *         description: Unauthorized user.
  */
-router.post('/admin/create-products', ProductController.createProduct);
+router.post('/v:version/admin/create-products', ProductController.createProduct);
 
 /**
  * @swagger
@@ -131,7 +131,7 @@ router.post('/admin/create-products', ProductController.createProduct);
  *       404:
  *         description: Product not found.
  */
-router.put('/admin/products/:id', ProductController.editProduct);
+router.put('/v:version/admin/products/:id', ProductController.editProduct);
 
 /**
  * @swagger
@@ -155,7 +155,7 @@ router.put('/admin/products/:id', ProductController.editProduct);
  *       401:
  *         description: Unauthorized user.
  */
-router.delete('/admin/delete-products/:id', ProductController.deleteProduct);
+router.delete('/v:version/admin/delete-products/:id', ProductController.deleteProduct);
 
 /**
  * @swagger
@@ -180,7 +180,7 @@ router.delete('/admin/delete-products/:id', ProductController.deleteProduct);
  *                     type: float
  *                     example: 30.00
  */
-router.post('/admin/filter-price', ProductController.productPriceFilter);
+router.post('/v:version/admin/filter-price', ProductController.productPriceFilter);
 /**
  * @swagger
  * /api/filter-stock:
@@ -204,7 +204,7 @@ router.post('/admin/filter-price', ProductController.productPriceFilter);
  *                     type: integer
  *                     example: 30
  */
-router.post('/admin/filter-stock', ProductController.productStockFilter);
+router.post('/v:version/admin/filter-stock', ProductController.productStockFilter);
 /**
  * @swagger
  * /api/edit-product:
@@ -234,6 +234,6 @@ router.post('/admin/filter-stock', ProductController.productStockFilter);
  *                     type: integer
  *                     example : "100"
  */
-router.put('/admin/edit-product', ProductController.editProduct);
+router.put('/v:version/admin/edit-product', ProductController.editProduct);
 
 export default router;

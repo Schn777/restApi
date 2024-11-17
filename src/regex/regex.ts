@@ -1,8 +1,9 @@
+import { Product } from "../models/product.model";
 import ProductDto from "../payloads/dto/product.dto";
 
 export default class Regex{
 
-    public static validateProduct(productDto : ProductDto) {
+    public static validateProduct(productDto : ProductDto | Product) {
         const nameRegex = /^[\w\s\S]{3,50}$/;
         const priceRegex = /^(0|[1-9]\d*)(\.\d+)?$/;
         const quantityRegex = /^[1-9]\d*$/;

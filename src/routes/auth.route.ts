@@ -32,7 +32,7 @@ const router = Router();
  *       500:
  *         description: Internal server error.
  */
-router.post('/auth', AuthController.Authenticate);
+router.post('/v:version/auth', AuthController.Authenticate);
 
 /**
  * @swagger
@@ -71,7 +71,7 @@ router.post('/auth', AuthController.Authenticate);
  *       500:
  *         description: Internal server error.
  */
-router.post('/register', AuthController.Register);
+router.post('/v:version/register', AuthController.Register);
 
 /**
  * @swagger
@@ -104,6 +104,6 @@ router.post('/register', AuthController.Register);
  *       500:
  *         description: Internal server error.
  */
-router.post('/login', AuthController.Authenticate);
+router.post('/v:version/login', AuthController.Authenticate);
 
 export default router;
