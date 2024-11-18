@@ -1,50 +1,42 @@
 [
   {
-    "id": 0,
+    "id": 3,
     "name": "johnd",
     "email": "john@gmail.com",
     "charge": "employe",
-    "password": "$2a$10$2VmEpjl1UGckYa6pdJZb3eSOlq7oy6RyY1r9Zs6ns0Mq8qUTFCOFi",
-    "isAdmin": false
-  },
-  {
-    "id": 1,
-    "name": "mor_2314",
-    "email": "morrison@gmail.com",
-    "charge": "employe",
-    "password": "$2a$10$i.pSgAB27RK.oOh.jAHSZuWEYAUKz5a5oFPVwboKm9TCHyw54q5G6",
-    "isAdmin": false
-  },
-  {
-    "id": 2,
-    "name": "kevinryan",
-    "email": "kevin@gmail.com",
-    "charge": "employe",
-    "password": "$2a$10$gDnetht.wGhAdAbc1JypVOKxFPAy5xB/5igqEqEzKDT31erBLFCnO",
-    "isAdmin": false
-  },
-  {
-    "id": 3,
-    "name": "donero",
-    "email": "don@gmail.com",
-    "charge": "employe",
-    "password": "$2a$10$g/oo4mZnivPBiKvELPyiy.PahRF7uZq5lP7jjxOcDDqIkhOUGWTSq",
+    "password": "$2a$10$9jezKk51j9CXnxgRTJQpC.hYooXU1Ibg0cpf02tMvgIYc0q1OyL6G",
     "isAdmin": false
   },
   {
     "id": 4,
-    "name": "derek",
-    "email": "derek@gmail.com",
+    "name": "mor_2314",
+    "email": "morrison@gmail.com",
     "charge": "employe",
-    "password": "$2a$10$AXPNBpgMq.Su.kNUK0kEcOqMoJZPxVk4QlQzwtc/jC6P9xPjFLfvq",
+    "password": "$2a$10$HUwjB1/fYCtyqlk3QM8X3.elhrTlTvHNm4eIn3xA7rdaIURC2jzf2",
     "isAdmin": false
   },
   {
     "id": 5,
-    "name": "user",
-    "email": "user@example.com",
+    "name": "kevinryan",
+    "email": "kevin@gmail.com",
     "charge": "employe",
-    "password": "$2a$10$XUbseHSuz5gqOt2oov6lpuNTEpyk.636DefXF0rupdNkj0sVwR64a",
+    "password": "$2a$10$DXnZHQqDFlQ9DxvAQ5lvDO60d/MUy6Rq6FTWMA3v3hLTWSpgp96AW",
+    "isAdmin": false
+  },
+  {
+    "id": 6,
+    "name": "donero",
+    "email": "don@gmail.com",
+    "charge": "employe",
+    "password": "$2a$10$fnFYvUZYEHJ3nohHBES6uOoJFkc2FBJ6hZO32BVaD3VZUnXMIRUti",
+    "isAdmin": false
+  },
+  {
+    "id": 7,
+    "name": "derek",
+    "email": "derek@gmail.com",
+    "charge": "employe",
+    "password": "$2a$10$h8xH6lZSyhM1JuWwQyF63eCUnusgptm3QlvnTlMhxCw3YD/SvkHR.",
     "isAdmin": false
   }
 ]

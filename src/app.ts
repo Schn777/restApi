@@ -6,13 +6,10 @@ import productRoutes from './routes/product.route';
 import authRoutes from './routes/auth.route';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import AuthenticationFilter from './middlewares/auth.middleware';
 import { config } from './config/config';
-import GetAllData from './utils/fetch.all.data';
 import logger from './utils/logger';
 import InitializeDb from './utils/initialize.db.connection';
 // Create an instance of AuthenticationFilter
-const filter = new AuthenticationFilter();
 const app = express();
 
 // Middleware for JSON parsing

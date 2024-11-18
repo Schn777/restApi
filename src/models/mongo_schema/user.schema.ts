@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   id: { type: Number, unique: true, required: true },
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true},
   charge: { type: String, default: null },
   isAdmin: { type: Boolean, default: null },
   password: { type: String, required: true },
