@@ -1,6 +1,6 @@
 <a name="hautPage"></a>
 
-<h1 align="center"><i> TP03: Développement d'une API RESTful pour la gestion d'inventaire </i></h1>
+<h1 align="center"><i> TP03: Développement d'une API RESTful pour la gestion d'inventaire, utilisant le serveur Mongodb pour le stockage des données </i></h1>
 <h2 align="center">Remis par Schneider Emile 2268126</h2>
 <h2 align="center">Collecte et Interpretation de données 420-514-MV Cégep Marie-Victorin</h2>
 
@@ -59,7 +59,7 @@
 
    ```bash
    git clone https://github.com/Schn777/restApi.git
-   git checkout tp1
+   git checkout tp3
    
 ---
 
