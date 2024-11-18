@@ -1,6 +1,6 @@
 <a name="hautPage"></a>
 
-<h1 align="center"><i> TP01: Développement d'une API RESTful pour la gestion d'inventaire </i></h1>
+<h1 align="center"><i> TP03: Développement d'une API RESTful pour la gestion d'inventaire </i></h1>
 <h2 align="center">Remis par Schneider Emile 2268126</h2>
 <h2 align="center">Collecte et Interpretation de données 420-514-MV Cégep Marie-Victorin</h2>
 
@@ -27,16 +27,16 @@
 
 ### 1. **Gestion des produits**
 :necktie:
-- **GET /api/v1/products** : Récupérer la liste des produits avec possibilité de filtrer par prix et quantité.
-- **POST /api/v1/admin/filter-price** : Filtrer la liste des produits par prix.
-- **POST /api/v1/admin/filter-stock** : Filtrer la liste des produits par quantité.
-- **POST /api/v1/admin/create-products** : Créer un nouveau produit (seulement accessible aux gestionnaires).
-- **PUT /api/v1/admin/products/:id** : Modifier un produit existant (gestionnaire uniquement).
-- **DELETE /api/v1/admin/delete-products/:id** : Supprimer un produit de l'inventaire (gestionnaire uniquement).
+- **GET /api/v2/products** : Récupérer la liste des produits avec possibilité de filtrer par prix et quantité.
+- **POST /api/v2/admin/filter-price** : Filtrer la liste des produits par prix.
+- **POST /api/v2/admin/filter-stock** : Filtrer la liste des produits par quantité.
+- **POST /api/v2/admin/create-products** : Créer un nouveau produit (seulement accessible aux gestionnaires).
+- **PUT /api/v2/admin/products/:id** : Modifier un produit existant (gestionnaire uniquement).
+- **DELETE /api/v2/admin/delete-products/:id** : Supprimer un produit de l'inventaire (gestionnaire uniquement).
 
 ### 2. **Gestion des utilisateurs et sécurité**
 :policeman:
-- **POST /api/v1/login** : Authentification des utilisateurs avec email et mot de passe, et génération d'un token JWT.
+- **POST /api/v2/login** : Authentification des utilisateurs avec email et mot de passe, et génération d'un token JWT.
 - **Rôles** :
   - **Gestionnaire** : Accès complet (ajout, modification, suppression).
   - **Employé** : Consultation uniquement.
@@ -45,7 +45,7 @@
 ### 3. **Autres fonctionnalités**
 :computer:
 - **Validation des données** : Validation stricte des entrées utilisateurs (nom, prix, quantité, etc.).
-- **Versioning** : L'API est versionnée avec le préfixe `/v1/`.
+- **Versioning** : L'API est versionnée avec le préfixe `/v2/`.
 - **Documentation Swagger** : Documentation interactive via Swagger pour tester et comprendre l'API.
 - **Persistance des données** : Les produits sont initialement peuplés à partir de l'[API Fake Store](https://fakestoreapi.com/).
 - **Journalisation** : Les opérations importantes sont loguées avec un timestamp pour la gestion des erreurs et des audits.
@@ -75,7 +75,7 @@ Consulter l'API : <https://fakestoreapi.com/><br>
 ![image](https://github.com/user-attachments/assets/c519c950-0273-4412-87ec-e9ee969a0249)
 
 Ouvrez un terminal et démarrez l'API avec la requête 'npm run start'.  
-Dans votre browser, allez à : <https://localhost:3000/v1/api-docs/>
+Dans votre browser, allez à : <https://localhost:3000/v2/api-docs/>
 
 
 ---
@@ -95,10 +95,10 @@ Test-rest-api-user-products.postman_collection.json
 ### 1. Tester les Endpoints de l'API
 *Postman permet de simuler des requêtes HTTP (GET, POST, PUT, DELETE) vers les différents endpoints de ton API. Cela permet de vérifier si les routes définies fonctionnent comme prévu :*
 
-Envoyer des requêtes pour consulter la liste des produits (GET /api/v1/products).
-Ajouter un nouveau produit (POST /api/v1/admin/products).
-Modifier un produit existant (PUT /api/v1/admin/products/:id).
-Supprimer un produit (DELETE /api/v1/admin/delete-products/:id).
+Envoyer des requêtes pour consulter la liste des produits (GET /api/v2/products).
+Ajouter un nouveau produit (POST /api/v2/admin/products).
+Modifier un produit existant (PUT /api/v2/admin/products/:id).
+Supprimer un produit (DELETE /api/v2/admin/delete-products/:id).
 
 ### 2. Valider les Réponses
 *Postman permet d'observer les réponses renvoyées par ton API, notamment :*
@@ -110,7 +110,7 @@ Les messages d'erreurs en cas de validation échouée.
 ### 3. Tester l'Authentification
 *Postman permet également de tester le système d'authentification via JWT :*
 
-Envoyer des requêtes de connexion (POST /api/v1/login) avec un email et un mot de passe.
+Envoyer des requêtes de connexion (POST /api/v2/login) avec un email et un mot de passe.
 Ajouter le token JWT dans l'en-tête des requêtes pour tester les routes protégées (par exemple, ajouter ou supprimer des produits).
 Cela permet de vérifier si les gestionnaires et les employés ont accès aux bonnes fonctionnalités selon leurs rôles (après la création d'un gestionnaire, il doit se connecter à nouveau pour valider ses autorisations).
 
